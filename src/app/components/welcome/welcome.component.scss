@@ -1,0 +1,34 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  h1 strong {
+    font-size: 2rem; /* Taille de police par défaut */
+  }
+}
+
+@media (max-width: 1200px) {
+  .wrapper h1 strong {
+    font-size: 1.75rem; /* Taille de police pour les écrans moyens */
+  }
+}
+
+@media (max-width: 992px) {
+  .wrapper h1 strong {
+    font-size: 1.5rem; /* Taille de police pour les petits écrans */
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper h1 strong {
+    font-size: 1.25rem; /* Taille de police pour les très petits écrans */
+  }
+}
+
+@media (max-width: 576px) {
+  .wrapper h1 strong {
+    font-size: 1rem; /* Taille de police pour les écrans extra petits */
+  }
+}
