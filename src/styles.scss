@@ -2,11 +2,14 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
-html, body, p, h1, h2, h3, h4 {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+html {
+  margin: 50px 100px;
+}
 
+@media (max-width: 750px) {
+  html {
+    margin: 36px 25px;
+  }
 }
 
 html, body, app-root {
@@ -62,6 +65,10 @@ app-root {
 
 .space-between {
   justify-content: space-between;
+}
+
+.space-arround {
+  justify-content: space-around;
 }
 
 .align-center {
