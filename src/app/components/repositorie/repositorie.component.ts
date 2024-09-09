@@ -2,12 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
 import { GithubService } from '../../services/github.service';
 
 @Component({
   selector: 'app-repositorie',
   standalone: true,
-  imports: [CommonModule, ChartModule],
+  imports: [CommonModule, ChartModule, TableModule],
   templateUrl: './repositorie.component.html',
   styleUrls: ['./repositorie.component.scss']
 })
@@ -59,4 +60,6 @@ export class RepositorieComponent implements OnInit {
       }
     }
   }
+
+  protected readonly window = window;
 }

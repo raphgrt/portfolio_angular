@@ -1,21 +1,64 @@
-/* repositorie.component.scss */
-.p-dataview-item {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
+/* src/app/components/repositorie/repositorie.component.scss */
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
-.p-dataview-item-content {
-  text-align: center;
+ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  max-width: 1200px;
 }
 
-.p-dataview-header {
-  text-align: center;
-  margin-bottom: 20px;
+li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0;
+  transition: box-shadow 0.3s;
 }
 
-.image_repo {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
+li:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.repo-details {
+  flex: 1;
+  min-width: 200px;
+}
+
+.repo-chart {
+  flex: 0 0 100px;
+  margin-left: 20px;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+}
+
+p {
+  margin: 5px 0;
+}
+
+.small-pie {
+  width: 80px !important;
+  height: 80px !important;
+}
+
+@media (max-width: 768px) {
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .repo-chart {
+    margin-left: 0;
+    margin-top: 20px;
+  }
 }
