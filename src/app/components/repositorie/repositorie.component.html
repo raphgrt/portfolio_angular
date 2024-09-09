@@ -1,15 +1,20 @@
-<div>
-  <h2>Debug Information</h2>
-
-  <h3>Repositories Data</h3>
-  <pre>{{ repositories | json }}</pre>
-
-  <h3>Most Used Language</h3>
-  <p>{{ mostUsedLanguage }}</p>
-
-  <h3>Language Image</h3>
-  <img *ngIf="languageImage" [src]="languageImage" alt="Language Category Image" />
-
-  <h3>Category of Most Used Language</h3>
-  <p>{{ getCategorie(mostUsedLanguage) }}</p>
-</div>
+<!-- repositorie.component.html -->
+<p-dataView [value]="repositories.slice((page - 1) * rows, page * rows)"
+            [paginator]="true"
+            [rows]="rows"
+            [totalRecords]="repositories.length"
+            (onPage)="onPage($event)">
+  <ng-template pTemplate="listItem" let-repo>
+    <div class="p-mb-3 p-shadow-2 p-p-3">
+      <h3><a [href]="repo.html_url" target="_blank">{{ repo.name }}</a></h3>
+      <p>{{ repo.description }}</p>
+      <p><strong>Last Push:</strong> {{ repo.pushed_at | date:'short' }}</p>
+      <img [src]="getCategorie(repo.language)" alt="Language Category Image" />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <div class="p-d-flex p-jc-between p-ai-center">
+      <h2>Repositories</h2>
+    </div>
+  </ng-template>
+</p-dataView>

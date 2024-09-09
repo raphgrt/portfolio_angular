@@ -1,13 +1,11 @@
+import { GithubService} from "../../services/github/github.component";
 import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
-import { environment } from '../../env/environment';
-import { DataViewModule } from 'primeng/dataview';
-import { CommonModule } from '@angular/common';
+import {DataViewModule} from "primeng/dataview";
 
 @Component({
   selector: 'app-repositorie',
   standalone: true,
-  imports: [DataViewModule, CommonModule],
+  imports: [DataViewModule], // Importez DataViewModule ici
   templateUrl: './repositorie.component.html',
   styleUrls: ['./repositorie.component.scss']
 })
@@ -21,12 +19,16 @@ export class RepositorieComponent implements OnInit {
     'Other': 'assets/other.png'
   };
   languageImage: string = '';
+  page: number = 1;
+  rows: number = 5; // Nombre de repositories par page
+
+  constructor(private githubService: GithubService) {}
 
   ngOnInit() {
-    this.getLastRepositories();
+    this.loadRepositories();
   }
 
-  public getCategorie(language: string): string {
+  private getCategorie(language: string): string {
     const webLanguage = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'PHP', 'Ruby'];
     const objectLanguage = ['Java', 'C++', 'C#', 'Python', 'Swift', 'Kotlin'];
     const beautifulLanguage = ['Python', 'Ruby', 'Haskell'];
@@ -37,13 +39,9 @@ export class RepositorieComponent implements OnInit {
     return 'Other';
   }
 
-  private async getLastRepositories() {
-    const url = `https://api.github.com/users/raphgrt/repos?per_page=5&sort=created`;
-    const headers = { 'Authorization': `token ${environment.githubApiKey}` };
-
+  private async loadRepositories() {
     try {
-      const response = await axios.get(url, { headers });
-      this.repositories = response.data;
+      this.repositories = await this.githubService.getLastRepositories();
       await this.setMostUsedLanguage();
     } catch (error) {
       console.error('There was an error!', error);
@@ -56,8 +54,8 @@ export class RepositorieComponent implements OnInit {
     for (const repo of this.repositories) {
       const langUrl = repo.languages_url;
       try {
-        const response = await axios.get(langUrl, { headers: { 'Authorization': `token ${environment.githubApiKey}` } });
-        for (const [language, count] of Object.entries(response.data)) {
+        const response = await this.githubService.getRepositoryLanguages(langUrl);
+        for (const [language, count] of Object.entries(response)) {
           languageCounts[language] = (languageCounts[language] || 0) + (count as number);
         }
       } catch (error) {
@@ -67,5 +65,9 @@ export class RepositorieComponent implements OnInit {
 
     this.mostUsedLanguage = Object.keys(languageCounts).reduce((a, b) => languageCounts[a] > languageCounts[b] ? a : b, '');
     this.languageImage = this.languageImages[this.getCategorie(this.mostUsedLanguage)] || 'assets/other.png';
+  }
+
+  onPage(event: any) {
+    this.page = event.page + 1;
   }
 }
