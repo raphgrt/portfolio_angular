@@ -1,11 +1,11 @@
-import { GithubService} from "../../services/github/github.component";
 import { Component, OnInit } from '@angular/core';
-import {DataViewModule} from "primeng/dataview";
+import { CommonModule } from '@angular/common';
+import { GithubService } from '../../services/github.service';
 
 @Component({
   selector: 'app-repositorie',
   standalone: true,
-  imports: [DataViewModule], // Importez DataViewModule ici
+  imports: [CommonModule],
   templateUrl: './repositorie.component.html',
   styleUrls: ['./repositorie.component.scss']
 })
@@ -13,14 +13,14 @@ export class RepositorieComponent implements OnInit {
   repositories: any[] = [];
   mostUsedLanguage: string = '';
   languageImages: { [key: string]: string } = {
-    'Web': 'assets/web.png',
-    'Object': 'assets/object.png',
-    'Beautiful': 'assets/beautiful.png',
-    'Other': 'assets/other.png'
+    'Web': 'assets/web.svg',
+    'Object': 'assets/object.svg',
+    'Beautiful': 'assets/beautiful.svg',
+    'Other': 'assets/other.svg'
   };
   languageImage: string = '';
   page: number = 1;
-  rows: number = 5; // Nombre de repositories par page
+  rows: number = 5;
 
   constructor(private githubService: GithubService) {}
 
@@ -28,7 +28,7 @@ export class RepositorieComponent implements OnInit {
     this.loadRepositories();
   }
 
-  private getCategorie(language: string): string {
+  public getCategorie(language: string): string {
     const webLanguage = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'PHP', 'Ruby'];
     const objectLanguage = ['Java', 'C++', 'C#', 'Python', 'Swift', 'Kotlin'];
     const beautifulLanguage = ['Python', 'Ruby', 'Haskell'];
@@ -42,6 +42,7 @@ export class RepositorieComponent implements OnInit {
   private async loadRepositories() {
     try {
       this.repositories = await this.githubService.getLastRepositories();
+      console.log('Repositories:', this.repositories); // Log repositories to console
       await this.setMostUsedLanguage();
     } catch (error) {
       console.error('There was an error!', error);
@@ -64,7 +65,7 @@ export class RepositorieComponent implements OnInit {
     }
 
     this.mostUsedLanguage = Object.keys(languageCounts).reduce((a, b) => languageCounts[a] > languageCounts[b] ? a : b, '');
-    this.languageImage = this.languageImages[this.getCategorie(this.mostUsedLanguage)] || 'assets/other.png';
+    this.languageImage = this.languageImages[this.getCategorie(this.mostUsedLanguage)] || 'assets/other.svg';
   }
 
   onPage(event: any) {
