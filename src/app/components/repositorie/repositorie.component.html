@@ -1,5 +1,15 @@
-<p-panel header="Header" [toggleable]="true">
-  <p>
-    Lorem ipsum dolor sit amet...
-  </p>
-</p-panel>
+<div>
+  <h2>Debug Information</h2>
+
+  <h3>Repositories Data</h3>
+  <pre>{{ repositories | json }}</pre>
+
+  <h3>Most Used Language</h3>
+  <p>{{ mostUsedLanguage }}</p>
+
+  <h3>Language Image</h3>
+  <img *ngIf="languageImage" [src]="languageImage" alt="Language Category Image" />
+
+  <h3>Category of Most Used Language</h3>
+  <p>{{ getCategorie(mostUsedLanguage) }}</p>
+</div>
