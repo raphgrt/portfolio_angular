@@ -1,26 +1,18 @@
+// src/app/components/repositorie/repositorie.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChartModule } from 'primeng/chart';
 import { GithubService } from '../../services/github.service';
 
 @Component({
   selector: 'app-repositorie',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ChartModule],
   templateUrl: './repositorie.component.html',
   styleUrls: ['./repositorie.component.scss']
 })
 export class RepositorieComponent implements OnInit {
   repositories: any[] = [];
-  mostUsedLanguage: string = '';
-  languageImages: { [key: string]: string } = {
-    'Web': 'assets/web.svg',
-    'Object': 'assets/object.svg',
-    'Beautiful': 'assets/beautiful.svg',
-    'Other': 'assets/other.svg'
-  };
-  languageImage: string = '';
-  page: number = 1;
-  rows: number = 5;
 
   constructor(private githubService: GithubService) {}
 
@@ -28,47 +20,43 @@ export class RepositorieComponent implements OnInit {
     this.loadRepositories();
   }
 
-  public getCategorie(language: string): string {
-    const webLanguage = ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'PHP', 'Ruby'];
-    const objectLanguage = ['Java', 'C++', 'C#', 'Python', 'Swift', 'Kotlin'];
-    const beautifulLanguage = ['Python', 'Ruby', 'Haskell'];
-
-    if (webLanguage.includes(language)) return 'Web';
-    if (objectLanguage.includes(language)) return 'Object';
-    if (beautifulLanguage.includes(language)) return 'Beautiful';
-    return 'Other';
-  }
-
   private async loadRepositories() {
     try {
       this.repositories = await this.githubService.getLastRepositories();
-      console.log('Repositories:', this.repositories); // Log repositories to console
-      await this.setMostUsedLanguage();
+      await this.setChartData();
     } catch (error) {
       console.error('There was an error!', error);
     }
   }
 
-  private async setMostUsedLanguage() {
-    const languageCounts: { [key: string]: number } = {};
-
+  private async setChartData() {
     for (const repo of this.repositories) {
+      const languageCounts: { [key: string]: number } = {};
       const langUrl = repo.languages_url;
       try {
         const response = await this.githubService.getRepositoryLanguages(langUrl);
         for (const [language, count] of Object.entries(response)) {
           languageCounts[language] = (languageCounts[language] || 0) + (count as number);
         }
+        repo.chartData = {
+          labels: Object.keys(languageCounts),
+          datasets: [{
+            data: Object.values(languageCounts),
+            backgroundColor: [
+              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+            ],
+            hoverBackgroundColor: [
+              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+            ]
+          }]
+        };
+        repo.chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false
+        };
       } catch (error) {
         console.error('Error fetching languages for repo:', error);
       }
     }
-
-    this.mostUsedLanguage = Object.keys(languageCounts).reduce((a, b) => languageCounts[a] > languageCounts[b] ? a : b, '');
-    this.languageImage = this.languageImages[this.getCategorie(this.mostUsedLanguage)] || 'assets/other.svg';
-  }
-
-  onPage(event: any) {
-    this.page = event.page + 1;
   }
 }

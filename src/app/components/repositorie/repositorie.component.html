@@ -1,3 +1,4 @@
+<!-- src/app/components/repositorie/repositorie.component.html -->
 <div>
   <h2>Repositories</h2>
   <ul>
@@ -5,7 +6,7 @@
       <h3><a [href]="repo.html_url" target="_blank">{{ repo.name }}</a></h3>
       <p>{{ repo.description }}</p>
       <p><strong>Last Push:</strong> {{ repo.pushed_at | date:'short' }}</p>
-      <img [src]="languageImages[getCategorie(repo.language)]" alt="Language Category Image" />
+      <p-chart type="pie" [data]="repo.chartData" [options]="repo.chartOptions"></p-chart>
     </li>
   </ul>
 </div>
