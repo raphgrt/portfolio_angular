@@ -1,4 +1,3 @@
-// src/app/components/repositorie/repositorie.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';

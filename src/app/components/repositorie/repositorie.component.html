@@ -1,16 +1,20 @@
 <!-- src/app/components/repositorie/repositorie.component.html -->
 <div>
   <h2>Repositories</h2>
-  <ul>
-    <li *ngFor="let repo of repositories" (click)="window.open(repo.html_url, '_blank')">
-      <div class="repo-details">
-        <h3>{{ repo.name }}</h3>
-        <p>{{ repo.description }}</p>
-        <p><strong>Last Push:</strong> {{ repo.pushed_at | date:'short' }}</p>
-      </div>
-      <div class="repo-chart">
-        <p-chart type="pie" [data]="repo.chartData" [options]="repo.chartOptions"></p-chart>
-      </div>
-    </li>
-  </ul>
+  <div class="repository-grid">
+    <div class="column" *ngFor="let column of [0, 1]">
+      <ul>
+        <li *ngFor="let repo of repositories | slice: (column * (repositories.length / 2)) : ((column + 1) * (repositories.length / 2))" (click)="window.open(repo.html_url, '_blank')">
+          <div class="repo-details">
+            <h3>{{ repo.name }}</h3>
+            <p>{{ repo.description }}</p>
+            <p><strong>Last Push:</strong> {{ repo.pushed_at | date:'short' }}</p>
+          </div>
+          <div class="repo-chart">
+            <p-chart type="pie" [data]="repo.chartData" [options]="repo.chartOptions"></p-chart>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

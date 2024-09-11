@@ -5,11 +5,23 @@
   padding: 20px;
 }
 
+.repository-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
 ul {
   list-style-type: none;
   padding: 0;
-  width: 100%;
-  max-width: 1200px;
+  margin: 0;
 }
 
 li {
@@ -20,7 +32,6 @@ li {
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 20px;
-  margin: 10px 0;
   transition: box-shadow 0.3s;
 }
 
@@ -31,10 +42,11 @@ li:hover {
 .repo-details {
   flex: 1;
   min-width: 200px;
+  text-align: center; /* Center the description text */
 }
 
 .repo-chart {
-  flex: 0 0 100px;
+  flex: 0 0 60px; /* Make the pie chart smaller */
   margin-left: 20px;
 }
 
@@ -47,11 +59,15 @@ p {
 }
 
 .small-pie {
-  width: 80px !important;
-  height: 80px !important;
+  width: 30px !important; /* Adjust the size of the pie chart */
+  height: 30px !important; /* Adjust the size of the pie chart */
 }
 
 @media (max-width: 768px) {
+  .repository-grid {
+    grid-template-columns: 1fr;
+  }
+
   li {
     flex-direction: column;
     align-items: flex-start;
