@@ -1,5 +1,5 @@
 {
-  "name": "snapface",
+  "name": "portfolio_angular",
   "version": "0.0.0",
   "scripts": {
     "prebuild": "node generate-env.js",
