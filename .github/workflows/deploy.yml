@@ -3,7 +3,7 @@ name: Build and Deploy Angular App
 on:
   push:
     branches:
-      - main  # Déclenche le workflow lorsque des commits sont poussés sur la branche principale
+      - main
 
 jobs:
   build:
@@ -21,6 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create environment file
+        run: |
+          mkdir -p src/app/env
+          echo "export const environment = { apiToken: '${{ secrets.API_TOK }}' };" > src/app/env/environment.ts
+
       - name: Build Angular project
         run: npm run build --prod
 
@@ -28,7 +33,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/your-angular-project # Remplace par le chemin vers ton dossier de build Angular
-
-      - name: Set up environment variables
-        run: echo "API_TOK=${{ secrets.API_TOK }}" >> $GITHUB_ENV
+          publish_dir: ./dist/portfolio_angualar
