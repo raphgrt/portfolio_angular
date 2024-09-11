@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { environment} from "../env/environment";
+import { environment} from "../../environments/environment";
 
 interface Repository {
   id: number;
