@@ -22,7 +22,7 @@ export class GithubService {
 
   async getLastRepositories(perPage: number = 5, sort: string = 'created'): Promise<Repository[]> {
     const url = `${this.apiUrl}?per_page=${perPage}&sort=${sort}`;
-    const headers = { 'Authorization': `token ${environment.githubApiKey}` };
+    const headers = { 'Authorization': `token ${environment.apiToken}` };
 
     try {
       const response = await axios.get(url, { headers });
@@ -34,7 +34,7 @@ export class GithubService {
   }
 
   async getRepositoryLanguages(url: string): Promise<{ [key: string]: number }> {
-    const headers = { 'Authorization': `token ${environment.githubApiKey}` };
+    const headers = { 'Authorization': `token ${environment.apiToken}` };
 
     try {
       const response = await axios.get(url, { headers });
