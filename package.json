@@ -2,6 +2,7 @@
   "name": "snapface",
   "version": "0.0.0",
   "scripts": {
+    "prebuild": "node generate-env.js",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",

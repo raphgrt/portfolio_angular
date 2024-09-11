@@ -21,10 +21,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create environment file
+      - name: Generate environment file
         run: |
-          mkdir -p src/environments
-          echo "export const environment = { production: true, apiToken: '' };" > src/environments/environment.prod.ts
+          echo "Generating environment file..."
+          echo "export const environment = { production: false, apiToken: '${{ secrets.API_TOK }}' };" > src/environments/environment.ts
 
       - name: Build Angular project
         run: npm run build --prod
